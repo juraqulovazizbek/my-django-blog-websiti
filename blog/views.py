@@ -39,8 +39,20 @@ class HomeView(View):
     def get(self , request:HttpRequest)-> HttpResponse:
         return render(request, 'home.html')
 
+
 class BlogView(View):
-    def get(self , request:HttpRequest) -> HttpResponse:
+    def get(self, request: HttpRequest) -> HttpResponse:
+        query_params = request.GET
+        if query_params.get('search'):
+            search = query_params['search']
+
+            result = []
+            for post in posts:
+                if search.lower() in post['title'].lower():
+                    result.append(post)
+
+            return render(request, 'blog.html', {'posts':result, 'search':search })
+        
         return render(request, 'blog.html', {'posts': posts})
 
 class BlogDetailView(View):
