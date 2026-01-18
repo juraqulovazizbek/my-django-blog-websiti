@@ -61,7 +61,7 @@ class BlogDetailView(View):
     def get(self , request:HttpRequest, slug: str) -> HttpResponse:
         for post in posts:
             if post['slug']==slug:
-                post['views'] += 1
+                post['views'] = post.get('views', 0) + 1
                 return render(request, 'blog_detail.html', {'post':post})
         return render(request, 'blog.html', {'posts': posts, 'error': f'{slug} if not found. '})
 
