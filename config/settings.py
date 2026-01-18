@@ -37,7 +37,6 @@ elif DJANGO_ENV =='production':
 else:
     raise Exception('DJANGO_ENV is not installed. ')
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -133,11 +132,14 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
-STATIC_DIRS = [
-    BASE_DIR/'static'
-]
 
-STATIC_ROOT = BASE_DIR/'static'
+if DJANGO_ENV == 'development':
+    STATICFILES_DIRS = [
+        BASE_DIR /'STATIC'
+    ]
+elif DJANGO_ENV =='production':
+
+    STATIC_ROOT = BASE_DIR/'static'
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 

@@ -2,6 +2,7 @@ from datetime import datetime
 from django.shortcuts import render
 from django.http import HttpRequest, HttpResponse
 from django.views import View
+from django.shortcuts import redirect
 
 
 
@@ -37,7 +38,7 @@ posts: list[dict] = [
 
 class HomeView(View):
     def get(self , request:HttpRequest)-> HttpResponse:
-        return render(request, 'home.html')
+        return render(request, 'home.html', {'posts':posts[-2:]})
 
 
 class BlogView(View):
@@ -53,11 +54,33 @@ class BlogView(View):
 
             return render(request, 'blog.html', {'posts':result, 'search':search })
         
-        return render(request, 'blog.html', {'posts': posts})
+        return render(request, 'blog.html', {'posts': posts[::-1]})
+
 
 class BlogDetailView(View):
     def get(self , request:HttpRequest, slug: str) -> HttpResponse:
         for post in posts:
             if post['slug']==slug:
+                post['views'] += 1
                 return render(request, 'blog_detail.html', {'post':post})
         return render(request, 'blog.html', {'posts': posts, 'error': f'{slug} if not found. '})
+
+
+class BlogCreateView(View):
+        def get(self , request:HttpRequest)-> HttpResponse:
+            return render(request, 'blog_create.html')
+
+        def post(self , request:HttpRequest)-> HttpResponse:
+            post_data = request.POST
+
+            posts.append({
+                'id':1,
+                'title':post_data.get('title'),
+                'slug':post_data.get('slug'),
+                'reading_minute':post_data.get('reading_minute'),
+                'content':post_data.get('content'),
+                'tg_link': post_data.get('tg_link'),
+                'view': 0
+            })
+
+            return redirect(('blogs'))
