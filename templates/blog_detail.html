@@ -1,0 +1,13 @@
+<html>
+    <head>
+        <title>{{ post.title }}</title>
+    </head>
+
+    <body>
+        <h1>{{ post.title }}</h1>
+        <p>{{ post.views }}</p>
+        <p>{{ post.content }}</p>
+
+        <a href="{% url "blogs" %}">Back to Blogs</a>
+    </body>
+</html>
