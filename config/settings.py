@@ -33,7 +33,7 @@ if DJANGO_ENV == 'development':
     ALLOWED_HOSTS = []
 elif DJANGO_ENV =='production':
     DEBUG = False
-    ALLOWED_HOSTS = ['locahost' , '127.0.0.1']
+    ALLOWED_HOSTS = ['localhost' , '127.0.0.1']
 else:
     raise Exception('DJANGO_ENV is not installed. ')
 
@@ -85,8 +85,12 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.getenv('DB_NAME'),
+        'USER': os.getenv('DB_USER'),
+        'PASSWORD': os.getenv('DB_PASS'),
+        'HOST': os.getenv('DB_HOST'),
+        'PORT': os.getenv('DB_PORT'),
     }
 }
 
