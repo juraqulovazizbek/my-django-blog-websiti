@@ -9,5 +9,5 @@ from .views import(
 urlpatterns = [
     path('', HomeView.as_view(), name='home'),
     path('blogs/', BlogView.as_view(), name='blogs'),
-    path('blogs/<slug:slug>', BlogDetailView.as_view(), name='home_detail'),
+    path('blogs/<slug:slug>', BlogDetailView.as_view(), name='blog_detail'),
 ]
