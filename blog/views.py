@@ -1,9 +1,15 @@
+from uuid import uuid4
 from datetime import datetime
+
+from django.urls import reverse
 from django.shortcuts import render
 from django.http import HttpRequest, HttpResponse
 from django.views import View
 from django.shortcuts import redirect
+from django.utils.text import slugify
 
+
+from .forms import BlogCreateForm , BlogSearchForm
 
 
 posts: list[dict] = [
@@ -40,19 +46,19 @@ class HomeView(View):
     def get(self , request:HttpRequest)-> HttpResponse:
         return render(request, 'home.html', {'posts':posts[-2:]})
 
-
 class BlogView(View):
     def get(self, request: HttpRequest) -> HttpResponse:
-        query_params = request.GET
-        if query_params.get('search'):
-            search = query_params['search']
+        if request.GET:
+            form = BlogSearchForm(request.GET)
+            if form.is_valid():
+                search = form.cleaned_data['search']
 
-            result = []
-            for post in posts:
-                if search.lower() in post['title'].lower():
-                    result.append(post)
+                result = []
+                for post in posts:
+                    if search.lower() in post['title'].lower():
+                        result.append(post)
 
-            return render(request, 'blog.html', {'posts':result, 'search':search })
+                return render(request, 'blog.html', {'posts':result, 'search':search })
         
         return render(request, 'blog.html', {'posts': posts[::-1]})
 
@@ -71,16 +77,18 @@ class BlogCreateView(View):
             return render(request, 'blog_create.html')
 
         def post(self , request:HttpRequest)-> HttpResponse:
-            post_data = request.POST
+            form = BlogCreateForm(request.POST)
 
-            posts.append({
-                'id':1,
-                'title':post_data.get('title'),
-                'slug':post_data.get('slug'),
-                'reading_minute':post_data.get('reading_minute'),
-                'content':post_data.get('content'),
-                'tg_link': post_data.get('tg_link'),
-                'view': 0
-            })
+            if form.is_valid():
+                data = form.cleaned_data
 
-            return redirect(('blogs'))
+                data['id'] = str(uuid4())
+                data['slug'] = slugify(data['title'])
+                data['views'] = 0
+                data['published_date'] = datetime.now
+                
+
+                posts.append(data)
+                return redirect(reverse('blogs'))
+
+            return render(request, 'blog_create.html', {'form': form})

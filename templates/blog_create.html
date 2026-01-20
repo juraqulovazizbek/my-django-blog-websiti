@@ -31,18 +31,18 @@ Blog Website | Yangi maqola
                 placeholder="Maqola sarlavhasi"
                 required
             >
-        </div>
+            {% if form.title.errors %}
+                <div class="error">
+                    {{ form.title.errors }}
+                </div>
+            {% endif %}
 
-        <!-- Slug -->
-        <div class="form-group">
-            <label for="slug">Slug (URL)</label>
-            <input
-                type="text"
-                id="slug"
-                name="slug"
-                placeholder="maqola-slugi"
-                required
-            >
+            {% if form.title.help_text %}
+                <p class="help">
+                    {{ form.title.help_text }}
+                </p>
+            {% endif %}
+
         </div>
 
         <!-- Reading minute -->
@@ -56,6 +56,18 @@ Blog Website | Yangi maqola
                 placeholder="5"
                 required
             >
+            {% if form.reading_minute.errors %}
+                <div class="error">
+                    {{ form.reading_minute.errors }}
+                </div>
+            {% endif %}
+
+            {% if form.reading_minute.help_text %}
+                <p class="help">
+                    {{ form.reading_minute.help_text }}
+                </p>
+            {% endif %}
+
         </div>
 
         <!-- Content -->
@@ -68,6 +80,19 @@ Blog Website | Yangi maqola
                 placeholder="Maqola matnini shu yerga yozing..."
                 required
             ></textarea>
+            
+            {% if form.content.errors %}
+                <div class="error">
+                    {{ form.content.errors }}
+                </div>
+            {% endif %}
+
+            {% if form.content.help_text %}
+                <p class="help">
+                    {{ form.content.help_text }}
+                </p>
+            {% endif %}
+
         </div>
 
         <!-- Telegram link -->
@@ -79,6 +104,18 @@ Blog Website | Yangi maqola
                 name="tg_link"
                 placeholder="https://t.me/..."
             >
+            {% if form.tg_link.errors %}
+                <div class="error">
+                    {{ form.tg_link.errors }}
+                </div>
+            {% endif %}
+
+            {% if form.tg_link.help_text %}
+                <p class="help">
+                    {{ form.tg_link.help_text }}
+                </p>
+            {% endif %}
+
         </div>
 
         <!-- Submit -->
