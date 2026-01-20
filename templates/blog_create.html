@@ -80,7 +80,7 @@ Blog Website | Yangi maqola
                 placeholder="Maqola matnini shu yerga yozing..."
                 required
             ></textarea>
-            
+
             {% if form.content.errors %}
                 <div class="error">
                     {{ form.content.errors }}
@@ -111,6 +111,27 @@ Blog Website | Yangi maqola
             {% endif %}
 
             {% if form.tg_link.help_text %}
+                <p class="help">
+                    {{ form.tg_link.help_text }}
+                </p>
+            {% endif %}
+
+        </div>
+        <!-- Is Published  -->
+        <div >
+            <label for="is_published"> E'lon qilinsinmi ? </label>
+            <input
+                type="checkbox"
+                id="is_published"
+                name="is_published"
+            >
+            {% if form.is_published.errors %}
+                <div class="error">
+                    {{ form.is_published.errors }}
+                </div>
+            {% endif %}
+
+            {% if form.is_published.help_text %}
                 <p class="help">
                     {{ form.tg_link.help_text }}
                 </p>

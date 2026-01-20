@@ -31,29 +31,32 @@ Blog Website | Blog
 
     <!-- Blog list -->
     {% if posts %}
-        <ul class="blog-list">
-            {% for post in posts %}
-                <li class="blog-item">
-                    <h2>
-                        <a href="{% url 'blog_detail' post.slug %}">
-                            {{ post.title }}
-                        </a>
-                    </h2>
+            <ul class="blog-list">
+                {% for post in posts %}
+                    {% if post.is_published %}
 
-                    <p class="meta">
-                        📅 {{ post.published_date|date:"d M Y" }}
-                        · 👁 {{ post.views }}
-                        · ⏱ {{ post.reading_minute }} daqiqa
-                    </p>
+                        <li class="blog-item">
+                            <h2>
+                                <a href="{% url 'blog_detail' post.slug %}">
+                                    {{ post.title }}
+                                </a>
+                            </h2>
 
-                    <p class="excerpt">
-                        {{ post.content|truncatewords:30 }}
-                    </p>
+                            <p class="meta">
+                                📅 {{ post.published_date|date:"d M Y" }}
+                                · 👁 {{ post.views }}
+                                · ⏱ {{ post.reading_minute }} daqiqa
+                            </p>
 
-                    <a class="read-more" href="{% url 'blog_detail' post.slug %}">
-                        Batafsil o‘qish →
-                    </a>
-                </li>
+                            <p class="excerpt">
+                                {{ post.content|truncatewords:30 }}
+                            </p>
+
+                            <a class="read-more" href="{% url 'blog_detail' post.slug %}">
+                                Batafsil o‘qish →
+                            </a>
+                        </li>
+                    {% endif %}
             {% endfor %}
         </ul>
     {% else %}

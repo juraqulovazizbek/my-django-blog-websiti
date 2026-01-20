@@ -8,6 +8,7 @@ class BlogCreateForm(forms.Form):
     reading_minute = forms.IntegerField(min_value=1, max_value=120)
     content = forms.CharField(min_length=1)
     tg_link = forms.URLField()
+    is_published = forms.BooleanField(required=False)
     # created_at = 9
     # updated_at = 12
 
